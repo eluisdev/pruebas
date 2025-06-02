@@ -31,12 +31,17 @@ jobs:
           ls -la dist/
 
       - name: Deploy to Firebase Preview Channel
-        uses: FirebaseExtended/action-hosting-deploy@v0
+        #uses: FirebaseExtended/action-hosting-deploy@v0
         #id: firebase-hosting-deploy
-        with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRUEBAS_DA489 }}"
-          projectId: pruebas-da489
+        #with:
+          #repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          #firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRUEBAS_DA489 }}"
+          #projectId: pruebas-da489
           # channelId: pr-${{ github.event.pull_request.number }}
           #channelID: live
           # expires: 7d
+        #uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRUEBAS_DA489 }}
+          projectId: pruebas-da489
