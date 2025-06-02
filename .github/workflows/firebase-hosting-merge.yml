@@ -37,4 +37,4 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRUEBAS_DA489 }}"
           projectId: pruebas-da489
           channelId: live
-          workingDirectory: "./" # Crucial: especifica el directorio raíz
+          expires: "2h"
