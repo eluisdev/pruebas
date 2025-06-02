@@ -38,3 +38,8 @@ jobs:
           projectId: pruebas-da489
           channelId: live
           expires: "2h"
+
+      - name: Comentar URL del Preview en el PR
+        if: success()
+        run: |
+          echo "🔗 Preview listo en: ${{ steps.firebase-hosting-deploy.outputs.details_url }}"
