@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div>
-      <h1>Prueba final</h1>
+      <h1>Prueba final con action</h1>
     </div>
   );
 }
