@@ -1,83 +1,26 @@
-name: Deploy to Firebase Hosting on merge
+name: Deploy to Firebase Preview Channel
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    branches: [main]
 
 jobs:
-  build_and_preview:
+  preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
 
-      - name: Install Dependencies
-        run: npm ci
+      - run: npm ci
+      - run: npm run build
 
-      - name: Build
-        run: npm run build
-
-      - name: Verify Build Output
-        run: |
-          echo "Contenido del directorio:"
-          ls -la
-          echo "Contenido de dist/:"
-          ls -la dist/
-
-      - name: Deploy to Firebase Preview Channel
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        id: firebase-hosting-deploy
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRUEBAS_DA489 }}"
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRUEBAS_DA489 }}'
           projectId: pruebas-da489
-          channelId: pr-${{ github.event.pull_request.number }}
+          channelId: live
           expires: 7d
-        env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
-
-      - name: Comentar URL del Preview en el PR
-        if: success()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const previewUrl = '${{ steps.firebase-hosting-deploy.outputs.details_url }}';
-            const expireUrl = '${{ steps.firebase-hosting-deploy.outputs.expire_time }}';
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## 🚀 Preview Deploy Listo
-              
-              **Preview URL:** ${previewUrl}
-              **Expira:** ${expireUrl}
-              
-              Los cambios se pueden visualizar en el enlace de arriba.
-              
-              ---
-              *Este preview se generó automáticamente para el PR #${{ github.event.number }}*`
-            });
-
-      - name: Update PR Status
-        if: failure()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## ❌ Preview Deploy Falló
-              
-              Hubo un error al generar el preview. Por favor revisa los logs de la acción.
-              
-              ---
-              *Este comentario se generó automáticamente para el PR #${{ github.event.number }}*`
-            });
