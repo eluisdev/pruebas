@@ -37,6 +37,7 @@ jobs:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRUEBAS_DA489 }}"
           projectId: pruebas-da489
+          channelId: pr-${{ github.event.pull_request.number }}
           expires: 7d
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
