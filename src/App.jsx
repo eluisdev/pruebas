@@ -33,7 +33,11 @@ function App() {
 
   return (
     <div>
+<<<<<<< HEAD
       <h1>Prueba final</h1>
+=======
+      <h1>Mi app con Firebase Messaging y SW 22222222222222222222222222</h1>
+>>>>>>> origin/main
     </div>
   );
 }
