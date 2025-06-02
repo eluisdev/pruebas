@@ -1,26 +1,41 @@
-name: Deploy to Firebase Preview Channel
+name: Deploy to Firebase Hosting on merge
 on:
-  pull_request:
-    branches: [main]
+  push:
+    branches:
+      - main
 
 jobs:
-  preview:
+  build_and_preview:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
-      - uses: actions/setup-node@v4
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
 
-      - run: npm ci
-      - run: npm run build
+      - name: Install Dependencies
+        run: npm ci
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Build
+        run: npm run build
+
+      - name: Verify Build Output
+        run: |
+          echo "Contenido del directorio:"
+          ls -la
+          echo "Contenido de dist/:"
+          ls -la dist/
+
+      - name: Deploy to Firebase Preview Channel
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        id: firebase-hosting-deploy
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRUEBAS_DA489 }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRUEBAS_DA489 }}"
           projectId: pruebas-da489
-          channelId: live
+          channelId: pr-${{ github.event.pull_request.number }}
           expires: 7d
