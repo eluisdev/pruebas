@@ -2,6 +2,6 @@
 
 export default function Checkout() {
   return (
-    <div>Checkout</div>
+    <div>Checkout 22</div>
   )
 }
