@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div>
-      <h1>Mi app con Firebase Messaging y SW 222233333</h1>
+      <h1>Mi app con Firebase Messaging y SW 22223333233</h1>
     </div>
   );
 }
