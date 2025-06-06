@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div>
-      <h1>Prueba final con action</h1>
+      <h1>Mi app con Firebase Messaging y SW 23</h1>
     </div>
   );
 }
