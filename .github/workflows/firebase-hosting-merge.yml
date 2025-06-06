@@ -1,8 +1,13 @@
 name: Deploy to Firebase Hosting on merge
 on:
-  push:
+ pull_request:
+    types: [opened, synchronize]
     branches:
-      - main
+      - production
+# on:
+#   push:
+#     branches:
+#       - main
 
 jobs:
   build_and_preview:
